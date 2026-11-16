@@ -17,6 +17,8 @@
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <RootNamespace>Psikotes.Infrastructure</RootNamespace>
+
   </PropertyGroup>
 
 </Project>

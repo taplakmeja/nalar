@@ -2,7 +2,7 @@ using Psikotes.QuestionEngine.Abstractions;
 using Psikotes.QuestionEngine.Models;
 using Psikotes.QuestionEngine.Random;
 
-namespace Psikotes.QuestionEngine.Generators;
+namespace Psikotes.QuestionEngine.Generators.Numerical;
 
 /// <summary>
 /// Sample generator proving the engine contract: deterministic, seeded,

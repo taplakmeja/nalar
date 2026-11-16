@@ -1,5 +1,5 @@
 using Psikotes.QuestionEngine.Abstractions;
-using Psikotes.QuestionEngine.Generators;
+using Psikotes.QuestionEngine.Generators.Numerical;
 using Xunit;
 
 namespace Psikotes.QuestionEngine.Tests;

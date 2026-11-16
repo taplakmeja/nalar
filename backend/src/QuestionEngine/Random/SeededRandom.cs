@@ -12,6 +12,10 @@ public sealed class SeededRandom(long seed)
 
     public int Next(int maxValue) => _random.Next(maxValue);
 
+    public double NextDouble() => _random.NextDouble();
+
+    public bool Chance(double probability) => _random.NextDouble() < probability;
+
     public T Pick<T>(IReadOnlyList<T> items) => items[_random.Next(items.Count)];
 
     public IReadOnlyList<T> Shuffle<T>(IReadOnlyList<T> items)
