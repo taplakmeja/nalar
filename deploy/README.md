@@ -8,8 +8,8 @@ Requires .NET 10 SDK and a reachable PostgreSQL instance.
 
 ```bash
 cd backend
-dotnet ef database update --project src/Infrastructure --startup-project src/Api
-dotnet run --project src/Api
+dotnet ef database update --project src/Infrastructure --startup-project src/Web
+dotnet run --project src/Web
 # API on http://localhost:5000 (see launchSettings), Swagger at /swagger
 ```
 

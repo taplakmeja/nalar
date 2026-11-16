@@ -46,6 +46,12 @@ Scope, tasks and acceptance criteria: see `docs/PHASE1_PLAN.md`.
 - [x] Docker Compose: api + db + frontend, health checks, persistent volume
 - [x] Automated tests (xUnit 17/17 + Vitest 6/6) wired and green
 - [x] Phase 1 completion report
+- [x] Clean Architecture refactor (Jason Taylor style): `Api` → `Web`, `AuthService`
+      decomposed into Mediator commands/queries (`UseCases/Auth/...`) with
+      FluentValidation validators, Ardalis `Result<T>` outcomes, GuardClauses,
+      and Logging/Performance/Validation pipeline behaviors
+- [x] Agent skills installed at `.claude/skills/` (superpowers, frontend-design,
+      .NET standards)
 - [ ] ⚠️ `docker compose up` end-to-end run — blocked in sandbox (no Docker daemon); validate on first deploy
 
 ## Decisions Log
@@ -57,3 +63,6 @@ Scope, tasks and acceptance criteria: see `docs/PHASE1_PLAN.md`.
 | 2025-11-16 | Kraepelin modeled as session type, not MCQ | Continuous timed grid does not fit question/option shape |
 | 2025-11-16 | .NET 10 instead of .NET 8 | User decision ("use dotnet 10") |
 | 2025-11-16 | Integration tests run on SQLite in-memory | No Docker daemon in sandbox for PostgreSQL/Testcontainers |
+| 2025-11-16 | Mediator (`martinothamar/Mediator`) instead of MediatR | User decision; source-generated, AOT-friendly, better perf |
+| 2025-11-16 | Ardalis.Result + GuardClauses + FluentValidation pipeline | User decision; expected outcomes as values, exceptions only for programmer errors |
+| 2025-11-16 | `Mediator.SourceGenerator` referenced only in `Web` | Library requirement: generator belongs in the edge project; `AddMediator` is generated there |

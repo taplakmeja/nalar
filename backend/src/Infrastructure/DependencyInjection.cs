@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Psikotes.Application.Auth;
 using Psikotes.Application.Common.Interfaces;
 using Psikotes.Domain.Entities;
 using Psikotes.Infrastructure.Auth;
@@ -41,7 +40,6 @@ public static class DependencyInjection
             .ValidateOnStart();
 
         services.AddScoped<ITokenService, JwtTokenService>();
-        services.AddScoped<AuthService>();
 
         return services;
     }

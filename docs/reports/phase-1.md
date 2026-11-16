@@ -76,3 +76,45 @@ Date: 2025-11-16 · Stack: .NET 10 (per user decision), Vite/React/TS
   if generators need structured parameters.
 - Integration tests currently use SQLite; consider a Testcontainers PostgreSQL
   job in CI when compose verification becomes a gate.
+
+## Addendum — Clean Architecture Refactor (2025-11-16)
+
+Per user decision, the backend was refactored to Jason Taylor-style Clean
+Architecture with the Mediator pattern (`martinothamar/Mediator`), Ardalis.Result,
+Ardalis.GuardClauses, and FluentValidation. Agent skills (superpowers set,
+frontend-design, .NET standards) were installed at `.claude/skills/`.
+
+### Structural changes
+
+- `src/Api` renamed to `src/Web` (assembly `Psikotes.Web`); Mediator source
+  generator referenced only there (edge project rule), `Mediator.Abstractions`
+  in Application.
+- `AuthService` deleted and decomposed into use cases under
+  `Application/UseCases/Auth/`: `RegisterCommand`, `LoginCommand`,
+  `RefreshCommand`, `LogoutCommand` — each with handler + FluentValidation
+  validator; shared token issuance extracted to `AuthResponseFactory`.
+  `AuthException` removed; expected outcomes are now `Ardalis.Result` values
+  (`Invalid` → 400, `Unauthorized` → 401, `NoContent` → 204) mapped via
+  `ToActionResult(this)`.
+- Pipeline behaviors added in `Application/Common/Behaviors/`:
+  `LoggingBehavior`, `PerformanceBehavior`, `ValidationBehavior` (short-circuits
+  Result-typed messages to `Result.Invalid`); registered via `AddMediator`
+  options in `Web/Program.cs` with `ServiceLifetime.Scoped` (handlers use the
+  scoped DbContext).
+- `RefreshToken` entity gained guarded `Revoke`/`SetReplacedByToken` methods;
+  handlers use `Guard.Against.*` preconditions.
+- Test project renamed to `Psikotes.Web.IntegrationTests`; new
+  `Psikotes.Application.UnitTests` covers all validators; placeholder
+  `UnitTest1.cs` files removed. API surface unchanged.
+
+### Verification
+
+- `dotnet build` → 0 errors.
+- `dotnet test` → **36/36 passed** (8 QuestionEngine, 21 Application validator
+  units, 7 Web integration on SQLite in-memory).
+
+### Mediator integration notes
+
+- `AddMediator` (and `MediatorOptions`) are generated in the edge project, so
+  the `AddMediator(options => ...)` call lives in `Web/Program.cs`; behaviors
+  are registered via `options.PipelineBehaviors` (AOT-safe, per library docs).

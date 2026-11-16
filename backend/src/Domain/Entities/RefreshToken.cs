@@ -1,3 +1,5 @@
+using Ardalis.GuardClauses;
+
 namespace Psikotes.Domain.Entities;
 
 public sealed class RefreshToken
@@ -11,4 +13,23 @@ public sealed class RefreshToken
     public string? ReplacedByToken { get; set; }
 
     public bool IsActive => RevokedAtUtc is null && ExpiresAtUtc > DateTime.UtcNow;
+
+    public void Revoke(DateTime revokedAtUtc)
+    {
+        Guard.Against.Default(revokedAtUtc, nameof(revokedAtUtc));
+
+        if (RevokedAtUtc is not null)
+        {
+            throw new InvalidOperationException("Token sudah dicabut sebelumnya.");
+        }
+
+        RevokedAtUtc = revokedAtUtc;
+    }
+
+    public void SetReplacedByToken(string replacedByToken)
+    {
+        Guard.Against.NullOrWhiteSpace(replacedByToken, nameof(replacedByToken));
+
+        ReplacedByToken = replacedByToken;
+    }
 }

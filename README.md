@@ -34,14 +34,15 @@ and database backup/restore instructions.
 
 ```
 backend/
-  src/Api/             ASP.NET Core host: controllers, auth, health checks
-  src/Application/     Use cases and DTOs (auth for now)
+  src/Web/             ASP.NET Core host: controllers, middleware, Mediator wiring
+  src/Application/     Use cases (Mediator commands/queries, validators, behaviors)
   src/Domain/          Entities and enums
   src/Infrastructure/  EF Core, Identity, JWT, migrations, seeding
   src/QuestionEngine/  Deterministic question generation (independent project)
-  tests/               xUnit integration + engine tests
+  tests/               xUnit unit + integration + engine tests
 frontend/              React SPA (features-first), shadcn/ui components
 deploy/                docker-compose.yml, .env.example, deployment guide
+.claude/               agent skills (superpowers, frontend-design, .NET standards)
 docs/                  Architecture, phase plans, reports
 ```
 

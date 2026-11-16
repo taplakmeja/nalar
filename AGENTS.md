@@ -23,6 +23,7 @@ official examination questions. Readiness scores are indicative only.
 | Database | PostgreSQL |
 | ORM | Entity Framework Core (migrations maintained) |
 | Auth | ASP.NET Core Identity (roles: User, Administrator, ContentManager) |
+| Backend pattern | Clean Architecture (Jason Taylor style) + Mediator (`martinothamar/Mediator`) + Ardalis.Result + Ardalis.GuardClauses + FluentValidation |
 | Visual rendering | SVG + HTML Canvas |
 | Deployment | Docker Compose |
 | App type | Progressive Web App (PWA) |
@@ -37,11 +38,11 @@ official examination questions. Readiness scores are indicative only.
 ├── docs/                    # architecture, ADRs, phase plans & reports
 ├── backend/
 │   ├── src/
-│   │   ├── Api/             # ASP.NET Core host (controllers/endpoints, auth)
-│   │   ├── Application/     # use cases, DTOs, scoring, adaptive logic
+│   │   ├── Web/             # ASP.NET Core host (controllers, middleware); edge project — Mediator source generator lives here
+│   │   ├── Application/     # use cases (commands/queries + validators + pipeline behaviors), interfaces
 │   │   ├── Domain/          # entities, enums, value objects
 │   │   ├── Infrastructure/  # EF Core, Identity, repositories, datasets
-│   │   └── QuestionEngine/  # generation engine — NO dependency on Api/UI
+│   │   └── QuestionEngine/  # generation engine — NO dependency on Web/UI
 │   └── tests/
 ├── frontend/
 │   ├── src/                 # feature-first structure, React Router
@@ -71,6 +72,36 @@ official examination questions. Readiness scores are indicative only.
 8. **No ads during active examinations.** The ad module must be suppressible per route/mode.
 9. **Indonesian language.** User-facing content and question wording are in Bahasa
    Indonesia. Verbal datasets are versioned and attributed.
+
+## Backend Architecture Rules
+
+- **Clean Architecture dependency direction:** `Domain` ← `Application` ←
+  `Infrastructure` ← `Web`. `QuestionEngine` stays fully independent.
+- **Messaging:** use `martinothamar/Mediator` (source-generated, AOT-friendly).
+  Messages/handlers live in `Application` (`ICommand<>`/`IQuery<>`,
+  `ICommandHandler<>`/`IQueryHandler<>` returning `ValueTask<T>`). The
+  `Mediator.SourceGenerator` package is referenced **only** in `Web` (edge
+  project) with `PrivateAssets=all`; `Mediator.Abstractions` everywhere messages
+  are defined. Handlers run with `ServiceLifetime.Scoped` (they use the scoped
+  DbContext).
+- **Results:** handlers return `Ardalis.Result`/`Result<T>` — never throw for
+  expected business outcomes (`Result.Invalid`, `Result.Unauthorized`,
+  `Result.Conflict`, `Result.NotFound`). Controllers map with
+  `result.ToActionResult(this)` from `Ardalis.Result.AspNetCore`.
+- **Validation:** FluentValidation validators per command/query, executed by the
+  open-generic `ValidationBehavior` pipeline behavior; invalid Result-typed
+  messages short-circuit to `Result.Invalid` (HTTP 400).
+- **Guards:** `Ardalis.GuardClauses` (`Guard.Against.*`) for programmer-error
+  preconditions in handlers and domain methods.
+- **Pipeline behaviors** (`Application/Common/Behaviors`): Logging, Performance,
+  Validation — registered via `AddMediator` options in `Web/Program.cs`.
+
+## Skills
+
+Repo-borne agent skills live in `.claude/skills/` (superpowers set, frontend
+design, .NET standards: coding, API design, EF Core, project structure,
+dependency injection, configuration, database performance, testcontainers).
+Consult the relevant skill before non-trivial work in its area.
 
 ## Question Generation Contract
 
