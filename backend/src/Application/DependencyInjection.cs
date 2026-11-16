@@ -27,6 +27,8 @@ public static class DependencyInjection
             return new GeneratorRegistry(generators);
         });
         services.AddScoped<IQuestionGenerationService, QuestionGenerationService>();
+        services.AddScoped<ITrainingStatsService, TrainingStatsService>();
+        services.AddSingleton<IAdaptiveDifficultyService, AdaptiveDifficultyService>();
         services.AddSingleton<IScoringService, ScoringService>();
 
         return services;

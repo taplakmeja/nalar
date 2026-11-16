@@ -14,7 +14,7 @@ Status legend: ⬜ not started · 🟨 in progress · ✅ done · ⛔ blocked
 | 2 | Question Generation Engine | ✅ | `docs/reports/phase-2.md` |
 | 3 | Six question categories & visual rendering | ✅ | `docs/reports/phase-3.md` |
 | 4 | Training & examination system | ✅ | `docs/reports/phase-4.md` |
-| 5 | Analytics & adaptive difficulty | ⬜ | — |
+| 5 | Analytics & adaptive difficulty | ✅ | `docs/reports/phase-5.md` |
 | 6 | Administration & Generator Builder | ⬜ | — |
 | 7 | PWA & advertising | ⬜ | — |
 | 8 | Production deployment & optimization | ⬜ | — |
@@ -94,6 +94,24 @@ Scope, tasks and acceptance criteria: see `docs/PHASE4_PLAN.md`; report:
 - [x] Frontend: ModeSelectPage, SessionRunnerPage (countdown, navigation,
       review marking, auto-submit), SessionResultPage; routes wired
 - [x] Tests: 96 backend (35 Application, 49 Engine, 12 Integration) + 6 frontend
+
+## Phase 5 — Analytics & Adaptive Difficulty (completed 2025-11-16)
+
+Scope, tasks and acceptance criteria: see `docs/PHASE5_PLAN.md`; report:
+`docs/reports/phase-5.md`.
+
+- [x] `GetDashboardQuery`: accuracy, avg time, per-category / per-difficulty
+      stats, recent history, recommendations — all server-side
+- [x] Readiness estimate (Siap / Hampir Siap / Belum Siap) always labelled
+      indicative with disclaimer, never a pass guarantee
+- [x] `AdaptiveDifficultyService`: consecutive correct/incorrect + accuracy
+      rules, clamped 0–4; `UseAdaptiveDifficulty` flag + UI toggle
+- [x] Weakness Training auto-selects weakest category (adaptive difficulty)
+- [x] `AnalyticsController` → `GET /api/analytics/dashboard`
+- [x] Dashboard UI: stat cards, readiness, category bars, difficulty table,
+      recommendations, history; adaptive switch on mode select
+- [x] Tests: 109 backend (44 Application incl. 8 adaptation-rule tests,
+      49 Engine, 16 Integration incl. dashboard + weakness selection) + 6 frontend
 
 ## Decisions Log
 

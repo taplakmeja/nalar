@@ -9,4 +9,5 @@ public sealed record StartSessionCommand(
     string CategoryScope,
     int Difficulty,
     int QuestionCount,
-    string? ExamProfileSlug) : ICommand<Result<StartSessionResponse>>;
+    string? ExamProfileSlug,
+    bool UseAdaptiveDifficulty = false) : ICommand<Result<StartSessionResponse>>;
