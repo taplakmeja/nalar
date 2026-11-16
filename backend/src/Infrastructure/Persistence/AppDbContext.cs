@@ -10,6 +10,9 @@ public sealed class AppDbContext(DbContextOptions<AppDbContext> options)
     : IdentityDbContext<ApplicationUser, IdentityRole, string>(options), IAppDbContext
 {
     public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
+    public DbSet<TrainingSession> TrainingSessions => Set<TrainingSession>();
+    public DbSet<SessionQuestion> SessionQuestions => Set<SessionQuestion>();
+    public DbSet<ExamProfile> ExamProfiles => Set<ExamProfile>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -26,6 +29,46 @@ public sealed class AppDbContext(DbContextOptions<AppDbContext> options)
         builder.Entity<ApplicationUser>(entity =>
         {
             entity.Property(u => u.DisplayName).HasMaxLength(100);
+        });
+
+        builder.Entity<TrainingSession>(entity =>
+        {
+            entity.HasKey(s => s.Id);
+            entity.Property(s => s.Mode).HasConversion<string>().HasMaxLength(30);
+            entity.Property(s => s.CategoryScope).HasConversion<string>().HasMaxLength(30);
+            entity.Property(s => s.Status).HasConversion<string>().HasMaxLength(20);
+            entity.Property(s => s.Score).HasPrecision(6, 2);
+            entity.HasIndex(s => s.UserId);
+            entity.HasOne(s => s.ExamProfile)
+                .WithMany()
+                .HasForeignKey(s => s.ExamProfileId)
+                .OnDelete(DeleteBehavior.SetNull);
+            entity.HasMany(s => s.Questions)
+                .WithOne(q => q.Session)
+                .HasForeignKey(q => q.SessionId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        builder.Entity<SessionQuestion>(entity =>
+        {
+            entity.HasKey(q => q.Id);
+            entity.Property(q => q.Category).HasMaxLength(30);
+            entity.Property(q => q.GeneratorId).HasMaxLength(100);
+            entity.Property(q => q.ParametersJson).HasMaxLength(2000);
+            entity.Property(q => q.CorrectAnswer).HasMaxLength(500);
+            entity.Property(q => q.OptionsJson).HasMaxLength(4000);
+            entity.Property(q => q.SubmittedAnswer).HasMaxLength(500);
+            entity.HasIndex(q => q.SessionId);
+        });
+
+        builder.Entity<ExamProfile>(entity =>
+        {
+            entity.HasKey(p => p.Id);
+            entity.Property(p => p.Slug).HasMaxLength(50);
+            entity.HasIndex(p => p.Slug).IsUnique();
+            entity.Property(p => p.Name).HasMaxLength(100);
+            entity.Property(p => p.Description).HasMaxLength(500);
+            entity.Property(p => p.CategoryWeightsJson).HasMaxLength(2000);
         });
     }
 }

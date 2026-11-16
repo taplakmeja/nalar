@@ -54,6 +54,8 @@ try
         });
     });
 
+    builder.Services.AddHttpContextAccessor();
+    builder.Services.AddScoped<Psikotes.Application.Common.Interfaces.ICurrentUserService, Psikotes.Web.Services.CurrentUserService>();
     builder.Services.AddApplication();
     builder.Services.AddMediator(options =>
     {
@@ -151,6 +153,9 @@ try
             scope.ServiceProvider.GetRequiredService<Microsoft.AspNetCore.Identity.UserManager<ApplicationUser>>(),
             scope.ServiceProvider.GetRequiredService<Microsoft.AspNetCore.Identity.RoleManager<Microsoft.AspNetCore.Identity.IdentityRole>>(),
             app.Configuration,
+            scope.ServiceProvider.GetRequiredService<ILogger<Program>>());
+        await ExamProfileSeeder.SeedAsync(
+            db,
             scope.ServiceProvider.GetRequiredService<ILogger<Program>>());
     }
 

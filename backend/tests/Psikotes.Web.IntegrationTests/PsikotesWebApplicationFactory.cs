@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Hosting;
 using Psikotes.Domain.Common;
 using Psikotes.Infrastructure.Persistence;
@@ -48,6 +49,8 @@ public sealed class PsikotesWebApplicationFactory : WebApplicationFactory<Progra
 
             _connection.Open();
             services.AddDbContext<AppDbContext>(options => options.UseSqlite(_connection));
+
+            services.AddLogging(logging => logging.ClearProviders());
         });
     }
 
@@ -58,6 +61,9 @@ public sealed class PsikotesWebApplicationFactory : WebApplicationFactory<Progra
         {
             var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
             db.Database.EnsureCreated();
+
+            ExamProfileSeeder.SeedAsync(db, scope.ServiceProvider.GetRequiredService<ILogger<PsikotesWebApplicationFactory>>())
+                .GetAwaiter().GetResult();
 
             var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             foreach (var role in Roles.All)

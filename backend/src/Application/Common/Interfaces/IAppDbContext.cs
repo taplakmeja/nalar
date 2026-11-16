@@ -7,5 +7,8 @@ public interface IAppDbContext
 {
     DbSet<ApplicationUser> Users { get; }
     DbSet<RefreshToken> RefreshTokens { get; }
+    DbSet<TrainingSession> TrainingSessions { get; }
+    DbSet<SessionQuestion> SessionQuestions { get; }
+    DbSet<ExamProfile> ExamProfiles { get; }
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

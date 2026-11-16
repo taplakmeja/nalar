@@ -10,7 +10,8 @@ using Xunit;
 
 namespace Psikotes.Web.IntegrationTests;
 
-public class AuthFlowTests : IClassFixture<PsikotesWebApplicationFactory>
+[Collection("Integration")]
+public class AuthFlowTests
 {
     private readonly PsikotesWebApplicationFactory _factory;
 

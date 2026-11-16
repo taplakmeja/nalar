@@ -5,6 +5,9 @@ import { RequireAuth, RequireRole } from "@/app/guards"
 import { LoginPage } from "@/features/auth/LoginPage"
 import { RegisterPage } from "@/features/auth/RegisterPage"
 import { DashboardPage } from "@/features/dashboard/DashboardPage"
+import { ModeSelectPage } from "@/features/training/ModeSelectPage"
+import { SessionResultPage } from "@/features/training/SessionResultPage"
+import { SessionRunnerPage } from "@/features/training/SessionRunnerPage"
 import { AdminPage } from "@/features/admin/AdminPage"
 import { Roles } from "@/app/roles"
 
@@ -23,7 +26,9 @@ export const router = createBrowserRouter([
         element: <AppLayout />,
         children: [
           { path: "/", element: <DashboardPage /> },
-          { path: "/latihan", element: <DashboardPage /> },
+          { path: "/latihan", element: <ModeSelectPage /> },
+          { path: "/sesi/:sessionId", element: <SessionRunnerPage /> },
+          { path: "/sesi/:sessionId/hasil", element: <SessionResultPage /> },
           {
             element: <RequireRole role={Roles.Administrator} />,
             children: [{ path: "/admin", element: <AdminPage /> }],
