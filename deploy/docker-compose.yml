@@ -1,0 +1,54 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-psikotes}
+      POSTGRES_USER: ${POSTGRES_USER:-psikotes}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-psikotes}
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-psikotes} -d ${POSTGRES_DB:-psikotes}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+
+  api:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT:-Production}
+      ConnectionStrings__Database: Host=db;Port=5432;Database=${POSTGRES_DB:-psikotes};Username=${POSTGRES_USER:-psikotes};Password=${POSTGRES_PASSWORD:-psikotes}
+      Jwt__Issuer: ${JWT_ISSUER:-Psikotes.Api}
+      Jwt__Audience: ${JWT_AUDIENCE:-Psikotes.Web}
+      Jwt__Key: ${JWT_KEY:?JWT_KEY must be set (32+ characters)}
+      Cors__Origins__0: ${FRONTEND_URL:-http://localhost:8080}
+      Database__MigrateOnStartup: "true"
+      SeedAdmin__Email: ${SEED_ADMIN_EMAIL:-}
+      SeedAdmin__Password: ${SEED_ADMIN_PASSWORD:-}
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O- http://localhost:8080/health/live || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 20s
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+    ports:
+      - "${FRONTEND_PORT:-8080}:80"
+    depends_on:
+      api:
+        condition: service_started
+    restart: unless-stopped
+
+volumes:
+  db-data:

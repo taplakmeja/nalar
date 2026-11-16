@@ -10,7 +10,7 @@ Status legend: ⬜ not started · 🟨 in progress · ✅ done · ⛔ blocked
 | # | Phase | Status | Report |
 |---|---|---|---|
 | 0 | Assignment: inspection, evaluation, Phase 1 plan | ✅ | `docs/reports/phase-0.md` |
-| 1 | Foundation, architecture, authentication, database | ⬜ | — |
+| 1 | Foundation, architecture, authentication, database | ✅ | `docs/reports/phase-1.md` |
 | 2 | Question Generation Engine | ⬜ | — |
 | 3 | Six question categories & visual rendering | ⬜ | — |
 | 4 | Training & examination system | ⬜ | — |
@@ -31,21 +31,22 @@ Status legend: ⬜ not started · 🟨 in progress · ✅ done · ⛔ blocked
 - [x] Produce Phase 1 implementation plan → `docs/PHASE1_PLAN.md`
 - [x] Define Phase 1 acceptance criteria → `docs/PHASE1_PLAN.md`
 
-## Phase 1 — Foundation (not started)
+## Phase 1 — Foundation (completed 2025-11-16)
 
 Scope, tasks and acceptance criteria: see `docs/PHASE1_PLAN.md`.
 
-- [ ] Monorepo skeleton (`backend/`, `frontend/`, `deploy/`, `docs/`)
-- [ ] Backend solution: Api / Application / Domain / Infrastructure / QuestionEngine projects
-- [ ] EF Core + Npgsql wired, initial migration, PostgreSQL in Docker
-- [ ] ASP.NET Core Identity: register/login/refresh, 3 roles seeded
-- [ ] JWT authentication + role-based authorization
-- [ ] Health checks, Serilog logging, global error handling
-- [ ] Frontend: Vite + React + TS, Tailwind, shadcn/ui installed, React Router shell
-- [ ] Auth pages (login/register), protected routes, role guards
-- [ ] Docker Compose: api + db + frontend, health checks, persistent volume
-- [ ] Automated tests (xUnit + Vitest) wired and green
-- [ ] Phase 1 completion report
+- [x] Monorepo skeleton (`backend/`, `frontend/`, `deploy/`, `docs/`)
+- [x] Backend solution: Api / Application / Domain / Infrastructure / QuestionEngine projects
+- [x] EF Core + Npgsql wired, initial migration, PostgreSQL in Docker
+- [x] ASP.NET Core Identity: register/login/refresh, 3 roles seeded
+- [x] JWT authentication + role-based authorization
+- [x] Health checks, Serilog logging, global error handling
+- [x] Frontend: Vite + React + TS, Tailwind, shadcn/ui (53 components) installed, React Router shell
+- [x] Auth pages (login/register), protected routes, role guards
+- [x] Docker Compose: api + db + frontend, health checks, persistent volume
+- [x] Automated tests (xUnit 17/17 + Vitest 6/6) wired and green
+- [x] Phase 1 completion report
+- [ ] ⚠️ `docker compose up` end-to-end run — blocked in sandbox (no Docker daemon); validate on first deploy
 
 ## Decisions Log
 
@@ -54,3 +55,5 @@ Scope, tasks and acceptance criteria: see `docs/PHASE1_PLAN.md`.
 | 2025-11-16 | Greenfield build; no migration from legacy code | Workspace contained no repository |
 | 2025-11-16 | Monorepo with strict `QuestionEngine` project boundary | Requirement: engine independent of presentation |
 | 2025-11-16 | Kraepelin modeled as session type, not MCQ | Continuous timed grid does not fit question/option shape |
+| 2025-11-16 | .NET 10 instead of .NET 8 | User decision ("use dotnet 10") |
+| 2025-11-16 | Integration tests run on SQLite in-memory | No Docker daemon in sandbox for PostgreSQL/Testcontainers |

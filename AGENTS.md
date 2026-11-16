@@ -19,7 +19,7 @@ official examination questions. Readiness scores are indicative only.
 | Frontend | React + TypeScript (Vite) |
 | UI | Tailwind CSS + shadcn/ui (all components properly installed) |
 | Routing | React Router (no giant switch-case routers) |
-| Backend | ASP.NET Core Web API (C#) |
+| Backend | ASP.NET Core Web API (C#, .NET 10) |
 | Database | PostgreSQL |
 | ORM | Entity Framework Core (migrations maintained) |
 | Auth | ASP.NET Core Identity (roles: User, Administrator, ContentManager) |
