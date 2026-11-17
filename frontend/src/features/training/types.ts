@@ -21,6 +21,7 @@ export interface StartSessionRequest {
   difficulty: number
   questionCount: number
   examProfileSlug?: string | null
+  useAdaptiveDifficulty?: boolean
 }
 
 export interface StartSessionResponse {

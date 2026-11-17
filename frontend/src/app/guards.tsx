@@ -20,7 +20,7 @@ export function RequireAuth() {
   return <Outlet />
 }
 
-export function RequireRole({ role }: { role: string }) {
+export function RequireRole({ role }: { role: string | string[] }) {
   const { hasRole, isLoading } = useAuth()
 
   if (isLoading) {
@@ -31,7 +31,10 @@ export function RequireRole({ role }: { role: string }) {
     )
   }
 
-  if (!hasRole(role)) {
+  const roles = Array.isArray(role) ? role : [role]
+  const allowed = roles.some((item) => hasRole(item))
+
+  if (!allowed) {
     return <Navigate to="/" replace />
   }
 

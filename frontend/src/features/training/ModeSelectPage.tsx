@@ -9,6 +9,7 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
+import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { startSession } from "./api"
@@ -41,6 +42,7 @@ export function ModeSelectPage() {
   const [categoryScope, setCategoryScope] = useState<CategoryScope>("Mixed")
   const [difficulty, setDifficulty] = useState(1)
   const [questionCount, setQuestionCount] = useState(10)
+  const [adaptive, setAdaptive] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -54,6 +56,7 @@ export function ModeSelectPage() {
         difficulty,
         questionCount,
         examProfileSlug: null,
+        useAdaptiveDifficulty: adaptive,
       })
       navigate(`/sesi/${session.sessionId}`, { state: session })
     } catch (err) {
@@ -130,6 +133,20 @@ export function ModeSelectPage() {
               {d}
             </Button>
           ))}
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center justify-between text-base">
+            Kesulitan Adaptif
+            <Switch checked={adaptive} onCheckedChange={setAdaptive} />
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-xs text-muted-foreground">
+            Tingkat kesulitan disesuaikan otomatis dari performa Anda.
+          </p>
         </CardContent>
       </Card>
 

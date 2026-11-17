@@ -27,7 +27,8 @@ public sealed class PsikotesWebApplicationFactory : WebApplicationFactory<Progra
                 ["Jwt:Issuer"] = "Psikotes.Api",
                 ["Jwt:Audience"] = "Psikotes.Web",
                 ["Jwt:Key"] = "test-only-signing-key-with-at-least-32-characters!!",
-                ["Cors:Origins:0"] = "http://localhost:8080"
+                ["Cors:Origins:0"] = "http://localhost:8080",
+                ["RateLimit:PermitLimit"] = "10000"
             });
         });
 

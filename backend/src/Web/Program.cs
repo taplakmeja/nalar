@@ -11,6 +11,7 @@ using Psikotes.Web.Middleware;
 using Psikotes.Domain.Entities;
 using Psikotes.Infrastructure;
 using Psikotes.Infrastructure.Persistence;
+using Psikotes.QuestionEngine;
 using Serilog;
 
 Log.Logger = new LoggerConfiguration()
@@ -106,7 +107,7 @@ try
                 context.Connection.RemoteIpAddress?.ToString() ?? "anonymous",
                 _ => new FixedWindowRateLimiterOptions
                 {
-                    PermitLimit = 20,
+                    PermitLimit = builder.Configuration.GetValue("RateLimit:PermitLimit", 20),
                     Window = TimeSpan.FromMinutes(1)
                 }));
     });
@@ -157,6 +158,12 @@ try
         await ExamProfileSeeder.SeedAsync(
             db,
             scope.ServiceProvider.GetRequiredService<ILogger<Program>>());
+
+        await GeneratorConfigLoader.LoadAsync(
+            db,
+            scope.ServiceProvider.GetRequiredService<GeneratorRegistry>(),
+            scope.ServiceProvider.GetRequiredService<Psikotes.Application.Common.Interfaces.IRuleGeneratorFactory>(),
+            scope.ServiceProvider.GetRequiredService<ILogger<GeneratorConfigLoader>>());
     }
 
     app.Run();

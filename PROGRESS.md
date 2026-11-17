@@ -14,7 +14,7 @@ Status legend: ⬜ not started · 🟨 in progress · ✅ done · ⛔ blocked
 | 2 | Question Generation Engine | ✅ | `docs/reports/phase-2.md` |
 | 3 | Six question categories & visual rendering | ✅ | `docs/reports/phase-3.md` |
 | 4 | Training & examination system | ✅ | `docs/reports/phase-4.md` |
-| 5 | Analytics & adaptive difficulty | ⬜ | — |
+| 5 | Analytics & adaptive difficulty | ✅ | `docs/reports/phase-5.md` |
 | 6 | Administration & Generator Builder | ⬜ | — |
 | 7 | PWA & advertising | ⬜ | — |
 | 8 | Production deployment & optimization | ⬜ | — |
@@ -94,6 +94,51 @@ Scope, tasks and acceptance criteria: see `docs/PHASE4_PLAN.md`; report:
 - [x] Frontend: ModeSelectPage, SessionRunnerPage (countdown, navigation,
       review marking, auto-submit), SessionResultPage; routes wired
 - [x] Tests: 96 backend (35 Application, 49 Engine, 12 Integration) + 6 frontend
+
+## Phase 5 — Analytics & Adaptive Difficulty (completed 2025-11-16)
+
+Scope, tasks and acceptance criteria: see `docs/PHASE5_PLAN.md`; report:
+`docs/reports/phase-5.md`.
+
+- [x] `GetDashboardQuery`: accuracy, avg time, per-category / per-difficulty
+      stats, recent history, recommendations — all server-side
+- [x] Readiness estimate (Siap / Hampir Siap / Belum Siap) always labelled
+      indicative with disclaimer, never a pass guarantee
+- [x] `AdaptiveDifficultyService`: consecutive correct/incorrect + accuracy
+      rules, clamped 0–4; `UseAdaptiveDifficulty` flag + UI toggle
+- [x] Weakness Training auto-selects weakest category (adaptive difficulty)
+- [x] `AnalyticsController` → `GET /api/analytics/dashboard`
+- [x] Dashboard UI: stat cards, readiness, category bars, difficulty table,
+      recommendations, history; adaptive switch on mode select
+- [x] Tests: 109 backend (44 Application incl. 8 adaptation-rule tests,
+      49 Engine, 16 Integration incl. dashboard + weakness selection) + 6 frontend
+
+## Phase 6 — Administration & Generator Builder (completed 2025-11-17)
+
+Scope, tasks and acceptance criteria: see `docs/PHASE6_PLAN.md`; report:
+`docs/reports/phase-6.md`.
+
+- [x] Rule-based engine: `SafeExpressionEvaluator` (sandboxed arithmetic
+      parser), `GeneratorConfigDefinition`, `RuleConfigValidator`,
+      `RuleBasedGenerator` with per-difficulty parameter scaling
+- [x] `GeneratorRegistry` versioned (all versions vs active set) + constructor
+      fix; `GeneratorConfigLoader` activates Published configs at startup
+- [x] Domain: `GeneratorConfig` (Draft/Published/RolledBack/Rejected),
+      `AppSetting`; migrations `AddGeneratorConfigs`, `AddAppSettings`
+- [x] Admin use cases: ListUsers, SetUserRoles, SetUserLockout, GetSettings,
+      UpdateSetting (Administrator only)
+- [x] Generator use cases: CRUD, CreateVersion, Preview, MassTest, Publish
+      (requires passed mass test), Rollback (ContentManager + Administrator)
+- [x] Exam profile admin CRUD with slug uniqueness
+- [x] Web: UsersController, SettingsController, GeneratorConfigsController,
+      extended ExamProfilesController; configurable rate limit
+- [x] Frontend: admin hub, `/admin/pengguna`, `/admin/generator` (preview,
+      mass test, publish, rollback, new version); multi-role `RequireRole`
+- [x] C# script generators: out-of-process sandbox design documented
+      (`docs/SCRIPT_GENERATOR_SANDBOX.md`), in-process execution forbidden,
+      `IScriptGeneratorRunner` seam prepared
+- [x] Tests: 137 backend (70 Engine incl. 21 new, 44 Application,
+      23 Integration incl. role guards + publish/rollback lifecycle) + 6 frontend
 
 ## Decisions Log
 
