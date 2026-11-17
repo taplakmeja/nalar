@@ -44,6 +44,15 @@ created when `SEED_ADMIN_EMAIL`/`SEED_ADMIN_PASSWORD` are set.
 - Update `FRONTEND_URL` to the public origin so API CORS matches.
 - Restrict access to the Postgres port — it is not published by default.
 
+## Operations Scripts
+
+- `scripts/backup.sh [dir]` — gzipped `pg_dump` to `deploy/backups/` (default).
+- `scripts/restore.sh <file.sql.gz>` — restore a dump (asks for confirmation).
+
+Schedule `backup.sh` daily via cron; see the cron example below.
+
+Also read `PRODUCTION_CHECKLIST.md` before every release.
+
 ## Database Backup & Recovery
 
 ### Backup

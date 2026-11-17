@@ -158,6 +158,27 @@ Scope, tasks and acceptance criteria: see `docs/PHASE7_PLAN.md`; report:
 - [x] Tests: 139 backend (25 Integration incl. ads config) + 15 frontend
       (9 new ad/consent tests)
 
+## Phase 8 — Production Deployment & Optimization (completed 2025-11-17)
+
+Scope, tasks and acceptance criteria: see `docs/PHASE8_PLAN.md`; report:
+`docs/reports/phase-8.md`.
+
+- [x] Containers hardened: API non-root (`USER app`), frontend on
+      `nginx-unprivileged`; gzip + cache headers (immutable assets, no-cache
+      service worker)
+- [x] Compose: log rotation (json-file, max-size/max-file) on all services,
+      frontend healthcheck, frontend waits for healthy API, API readiness
+      check against database
+- [x] Operations: `deploy/scripts/backup.sh` + `restore.sh`;
+      `deploy/PRODUCTION_CHECKLIST.md`; README operations section
+- [x] Performance: route-level code splitting (React.lazy + Suspense), main
+      chunk 500+ kB → 319 kB (102 kB gzip), per-page chunks
+- [x] Release: `docs/reports/phase-8.md` incl. known-limitations register;
+      secret scan clean
+- [x] Tests: 139 backend + 15 frontend green; compose validated in CI
+
+All eight phases complete.
+
 ## Decisions Log
 
 | Date | Decision | Rationale |
