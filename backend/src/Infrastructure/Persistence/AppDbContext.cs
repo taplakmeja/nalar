@@ -13,6 +13,8 @@ public sealed class AppDbContext(DbContextOptions<AppDbContext> options)
     public DbSet<TrainingSession> TrainingSessions => Set<TrainingSession>();
     public DbSet<SessionQuestion> SessionQuestions => Set<SessionQuestion>();
     public DbSet<ExamProfile> ExamProfiles => Set<ExamProfile>();
+    public DbSet<GeneratorConfig> GeneratorConfigs => Set<GeneratorConfig>();
+    public DbSet<AppSetting> AppSettings => Set<AppSetting>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -59,6 +61,27 @@ public sealed class AppDbContext(DbContextOptions<AppDbContext> options)
             entity.Property(q => q.OptionsJson).HasMaxLength(4000);
             entity.Property(q => q.SubmittedAnswer).HasMaxLength(500);
             entity.HasIndex(q => q.SessionId);
+        });
+
+        builder.Entity<AppSetting>(entity =>
+        {
+            entity.HasKey(s => s.Id);
+            entity.Property(s => s.Key).HasMaxLength(100);
+            entity.HasIndex(s => s.Key).IsUnique();
+            entity.Property(s => s.Value).HasMaxLength(2000);
+        });
+
+        builder.Entity<GeneratorConfig>(entity =>
+        {
+            entity.HasKey(c => c.Id);
+            entity.Property(c => c.GeneratorId).HasMaxLength(100);
+            entity.Property(c => c.Name).HasMaxLength(100);
+            entity.Property(c => c.Category).HasMaxLength(30);
+            entity.Property(c => c.Status).HasConversion<string>().HasMaxLength(20);
+            entity.Property(c => c.ConfigJson).HasMaxLength(20000);
+            entity.Property(c => c.MassTestJson).HasMaxLength(4000);
+            entity.Property(c => c.ReviewNotes).HasMaxLength(1000);
+            entity.HasIndex(c => new { c.GeneratorId, c.Version }).IsUnique();
         });
 
         builder.Entity<ExamProfile>(entity =>

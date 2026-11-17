@@ -20,13 +20,22 @@ public static class DependencyInjection
         {
             var generators = typeof(QuestionCategory).Assembly
                 .GetTypes()
-                .Where(t => t is { IsAbstract: false, IsInterface: false } && typeof(IQuestionGenerator).IsAssignableFrom(t))
+                .Where(t => t is { IsAbstract: false, IsInterface: false }
+                         && typeof(IQuestionGenerator).IsAssignableFrom(t)
+                         && t.GetConstructor(Type.EmptyTypes) is not null)
                 .Select(t => (IQuestionGenerator)Activator.CreateInstance(t)!)
                 .ToList();
 
-            return new GeneratorRegistry(generators);
+            var registry = new GeneratorRegistry();
+            foreach (var generator in generators)
+            {
+                registry.Activate(generator);
+            }
+
+            return registry;
         });
         services.AddScoped<IQuestionGenerationService, QuestionGenerationService>();
+        services.AddSingleton<IRuleGeneratorFactory, RuleGeneratorFactory>();
         services.AddScoped<ITrainingStatsService, TrainingStatsService>();
         services.AddSingleton<IAdaptiveDifficultyService, AdaptiveDifficultyService>();
         services.AddSingleton<IScoringService, ScoringService>();

@@ -113,6 +113,33 @@ Scope, tasks and acceptance criteria: see `docs/PHASE5_PLAN.md`; report:
 - [x] Tests: 109 backend (44 Application incl. 8 adaptation-rule tests,
       49 Engine, 16 Integration incl. dashboard + weakness selection) + 6 frontend
 
+## Phase 6 — Administration & Generator Builder (completed 2025-11-17)
+
+Scope, tasks and acceptance criteria: see `docs/PHASE6_PLAN.md`; report:
+`docs/reports/phase-6.md`.
+
+- [x] Rule-based engine: `SafeExpressionEvaluator` (sandboxed arithmetic
+      parser), `GeneratorConfigDefinition`, `RuleConfigValidator`,
+      `RuleBasedGenerator` with per-difficulty parameter scaling
+- [x] `GeneratorRegistry` versioned (all versions vs active set) + constructor
+      fix; `GeneratorConfigLoader` activates Published configs at startup
+- [x] Domain: `GeneratorConfig` (Draft/Published/RolledBack/Rejected),
+      `AppSetting`; migrations `AddGeneratorConfigs`, `AddAppSettings`
+- [x] Admin use cases: ListUsers, SetUserRoles, SetUserLockout, GetSettings,
+      UpdateSetting (Administrator only)
+- [x] Generator use cases: CRUD, CreateVersion, Preview, MassTest, Publish
+      (requires passed mass test), Rollback (ContentManager + Administrator)
+- [x] Exam profile admin CRUD with slug uniqueness
+- [x] Web: UsersController, SettingsController, GeneratorConfigsController,
+      extended ExamProfilesController; configurable rate limit
+- [x] Frontend: admin hub, `/admin/pengguna`, `/admin/generator` (preview,
+      mass test, publish, rollback, new version); multi-role `RequireRole`
+- [x] C# script generators: out-of-process sandbox design documented
+      (`docs/SCRIPT_GENERATOR_SANDBOX.md`), in-process execution forbidden,
+      `IScriptGeneratorRunner` seam prepared
+- [x] Tests: 137 backend (70 Engine incl. 21 new, 44 Application,
+      23 Integration incl. role guards + publish/rollback lifecycle) + 6 frontend
+
 ## Decisions Log
 
 | Date | Decision | Rationale |

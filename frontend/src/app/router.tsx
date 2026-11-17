@@ -9,6 +9,8 @@ import { ModeSelectPage } from "@/features/training/ModeSelectPage"
 import { SessionResultPage } from "@/features/training/SessionResultPage"
 import { SessionRunnerPage } from "@/features/training/SessionRunnerPage"
 import { AdminPage } from "@/features/admin/AdminPage"
+import { UsersAdminPage } from "@/features/admin/UsersAdminPage"
+import { GeneratorConfigsPage } from "@/features/admin/GeneratorConfigsPage"
 import { Roles } from "@/app/roles"
 
 export const router = createBrowserRouter([
@@ -31,7 +33,16 @@ export const router = createBrowserRouter([
           { path: "/sesi/:sessionId/hasil", element: <SessionResultPage /> },
           {
             element: <RequireRole role={Roles.Administrator} />,
-            children: [{ path: "/admin", element: <AdminPage /> }],
+            children: [
+              { path: "/admin", element: <AdminPage /> },
+              { path: "/admin/pengguna", element: <UsersAdminPage /> },
+            ],
+          },
+          {
+            element: (
+              <RequireRole role={[Roles.Administrator, Roles.ContentManager]} />
+            ),
+            children: [{ path: "/admin/generator", element: <GeneratorConfigsPage /> }],
           },
         ],
       },

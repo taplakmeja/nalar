@@ -11,7 +11,7 @@ public class QuestionGenerationServiceTests
         var registry = new GeneratorRegistry(
             typeof(QuestionEngine.Models.IQuestionGenerator).Assembly
                 .GetTypes()
-                .Where(t => !t.IsAbstract && !t.IsInterface)
+                .Where(t => !t.IsAbstract && !t.IsInterface && t.GetConstructor(Type.EmptyTypes) is not null)
                 .Where(QuestionEngineMarker)
                 .Select(t => (IQuestionGenerator)Activator.CreateInstance(t)!)
                 .ToList());

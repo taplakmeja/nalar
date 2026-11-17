@@ -10,5 +10,7 @@ public interface IAppDbContext
     DbSet<TrainingSession> TrainingSessions { get; }
     DbSet<SessionQuestion> SessionQuestions { get; }
     DbSet<ExamProfile> ExamProfiles { get; }
+    DbSet<GeneratorConfig> GeneratorConfigs { get; }
+    DbSet<AppSetting> AppSettings { get; }
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }
