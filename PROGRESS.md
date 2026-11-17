@@ -15,9 +15,9 @@ Status legend: ⬜ not started · 🟨 in progress · ✅ done · ⛔ blocked
 | 3 | Six question categories & visual rendering | ✅ | `docs/reports/phase-3.md` |
 | 4 | Training & examination system | ✅ | `docs/reports/phase-4.md` |
 | 5 | Analytics & adaptive difficulty | ✅ | `docs/reports/phase-5.md` |
-| 6 | Administration & Generator Builder | ⬜ | — |
-| 7 | PWA & advertising | ⬜ | — |
-| 8 | Production deployment & optimization | ⬜ | — |
+| 6 | Administration & Generator Builder | ✅ | `docs/reports/phase-6.md` |
+| 7 | PWA & advertising | ✅ | `docs/reports/phase-7.md` |
+| 8 | Production deployment & optimization | ✅ | `docs/reports/phase-8.md` |
 
 ## Phase 0 — Assignment (completed)
 
