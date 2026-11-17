@@ -179,6 +179,20 @@ Scope, tasks and acceptance criteria: see `docs/PHASE8_PLAN.md`; report:
 
 All eight phases complete.
 
+## Mobile Experience Track (planned)
+
+Post-v1.0 hardening of the mobile/PWA experience. Specification, audit, gap
+analysis and requirements: `docs/MOBILE_EXPERIENCE.md`; decisions:
+`docs/adr/ADR-0001` … `ADR-0007`; phased plan with acceptance criteria:
+`docs/MOBILE_ROADMAP.md`.
+
+| Phase | Scope | Status |
+|---|---|---|
+| M1 | Touch targets ≥ 44 px, safe areas, iOS PWA metadata | ⬜ |
+| M2 | Exam resilience (refresh recovery, submit retry, exit guards) | ⬜ |
+| M3 | Dedicated Kraepelin grid UI, mobile-tuned inputs | ⬜ |
+| M4 | SW update flow, install UX, skeletons, admin responsive pass, CI perf budgets | ⬜ |
+
 ## Decisions Log
 
 | Date | Decision | Rationale |
