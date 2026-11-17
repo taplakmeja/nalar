@@ -2,6 +2,8 @@ import { NavLink, Outlet, useNavigate } from "react-router-dom"
 import { BarChart3, Home, LogOut, Settings } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useAuth } from "@/features/auth/auth-context"
+import { AdSlot } from "@/features/ads/AdSlot"
+import { ConsentBanner } from "@/features/ads/ConsentBanner"
 
 const navItems = [
   { to: "/", label: "Beranda", icon: Home, end: true },
@@ -33,8 +35,12 @@ export function AppLayout() {
       </header>
 
       <main className="mx-auto w-full max-w-3xl flex-1 px-4 pb-24 pt-4">
+        <AdSlot placement="below-header" />
         <Outlet />
+        <AdSlot placement="above-nav" />
       </main>
+
+      <ConsentBanner />
 
       <nav className="fixed inset-x-0 bottom-0 z-10 border-t bg-background/95 backdrop-blur">
         <div className="mx-auto flex w-full max-w-3xl items-stretch justify-around">
