@@ -140,6 +140,24 @@ Scope, tasks and acceptance criteria: see `docs/PHASE6_PLAN.md`; report:
 - [x] Tests: 137 backend (70 Engine incl. 21 new, 44 Application,
       23 Integration incl. role guards + publish/rollback lifecycle) + 6 frontend
 
+## Phase 7 — PWA & Advertising (completed 2025-11-17)
+
+Scope, tasks and acceptance criteria: see `docs/PHASE7_PLAN.md`; report:
+`docs/reports/phase-7.md`.
+
+- [x] PWA: manifest (installable icons incl. maskable), hand-rolled service
+      worker (app-shell precache, SWR static, network-first API + offline
+      fallback), theme-color/apple-touch-icon, production-only registration
+- [x] Ads backend: `GET /api/ads/config` from `AppSetting` keys
+      (`Ads.Enabled/Provider/Client/PlacementsJson`), disabled by default
+- [x] Ads frontend: `AdProvider` abstraction + `AdSenseProvider`,
+      `createAdProvider` factory, placement-aware `AdSlot`, consent banner
+      (stored + respected), placements below-header / above-nav
+- [x] Hard rule enforced: no ad renders on active session routes
+      (`useIsExamActive`), covered by frontend tests
+- [x] Tests: 139 backend (25 Integration incl. ads config) + 15 frontend
+      (9 new ad/consent tests)
+
 ## Decisions Log
 
 | Date | Decision | Rationale |
